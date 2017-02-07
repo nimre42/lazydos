@@ -1,31 +1,27 @@
 @set shutdownVars=
-@set shutdownVarsCount=0
+@SETLOCAL ENABLEDELAYEDEXPANSION
+@for %%x in (%*) do @(
+	@call :%%x 2>nul || call :other %%x
+)
+@goto :ldShutdownCmd
 
-@if "%1"=="shutdown" (
-	set shutdownVars=%shutdownVars% -s
-	set /A shutdownVarsCount += 1
-)
-@if "%1"=="reboot" (
-	set shutdownVars=%shutdownVars% -r
-	set /A shutdownVarsCount += 1
-)
+:shutdown
+	@set shutdownVars=%shutdownVars% -s
+	@goto :end
+:reboot
+	@set shutdownVars=%shutdownVars% -r
+	@goto :end
+:force
+	@set shutdownVars=%shutdownVars% -f
+	@goto :end
+:now
+	@set shutdownVars=%shutdownVars% -t 00
+	@goto :end
+:: not defined - other options
+:other
+	@set shutdownVars=%shutdownVars% %1
+	@goto :end
 
-@if "%2"=="force" (
-	set shutdownVars=%shutdownVars% -f
-	set /A shutdownVarsCount += 1
-)
-@if "%3"=="force" (
-	set shutdownVars=%shutdownVars% -f
-	set /A shutdownVarsCount += 1
-)
-
-@if "%2"=="now" (
-	set shutdownVars=%shutdownVars% -t 00
-	set /A shutdownVarsCount += 1
-)
-@if "%3"=="now" (
-	set shutdownVars=%shutdownVars% -t 00
-	set /A shutdownVarsCount += 1
-)
-
+:ldShutdownCmd
 shutdown %shutdownVars%
+:end
