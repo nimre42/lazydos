@@ -3,7 +3,7 @@
 )
 @goto :%1
 :wait
-@%ldBaseDir%helpers\wait.bat %2
+@%ldBaseDir%helpers\wait.bat %2 %3
 :charset
 @%ldBaseDir%helpers\charset.bat %2
 :datetime
@@ -13,7 +13,7 @@
 :reboot
 @%ldBaseDir%helpers\shutdown.bat %*
 :vol
-@%ldBaseDir%helpers\vol.bat %*
+@%ldBaseDir%helpers\vol.bat %2 %3
 
 
 :ldrouterend
