@@ -1,23 +1,39 @@
-@echo %time%
-@if "%2" == "" (
-	goto :ldWaitSecs
-)
+:: be careful - counting slower than the clock, in "show mode" more
+:: check with logMode!
+:ldStart
+	@if "%logMode%" == "true" @echo %time%
+	@set ldWait=%1
 
-@SETLOCAL ENABLEDELAYEDEXPANSION
+:ldWaitMe
+	@if %ldWait% GTR 9999 goto :ldWaitoutOfRange
+	@if %ldWait% LSS 0 goto :ldWaitoutOfRange
+	@goto :waitStart
 
-@for /l %%a in (%1, -1, 1) do @(
-	set /a count=%%a
-	cls
-	echo wait: !count!s
-	call :ldWaitOneSec
-)
-@goto :eofldWait
+:ldWaitoutOfRange
+	@echo error - out of range
+	@goto :eofldWait
+
+
+:waitStart
+	@if "%2" == "" (
+		goto :ldWaitSecs
+	)
+
+	@SETLOCAL ENABLEDELAYEDEXPANSION
+	@for /l %%a in (%ldWait%, -1, 1) do @(
+		set /a count=%%a
+		cls
+		echo wait: !count!s
+		call :ldWaitOneSec
+	)
+
+	@goto :eofldWait
 
 :ldWaitSecs
-@CHOICE /N /C YN /T %1 /D Y >NUL
-@goto :eofldWait
+	@CHOICE /N /C YN /T %1 /D Y >NUL
+	@goto :eofldWait
 :ldWaitOneSec
-@CHOICE /N /C YN /T 1 /D Y >NUL
+	@CHOICE /N /C YN /T 1 /D Y >NUL
 
 :eofldWait
-@echo %time%
+	@if "%logMode%" == "true" @echo %time%

@@ -1,15 +1,24 @@
+:ldVolStart
 @set ldVolumeCmd=vol
-:: later - check the drive letter
-:: later - %2 changeable with %1
+
 @if NOT "%2" == "" (
-	set ldVolumeCmd=%ldVolumeCmd% %2
+	goto :ldVolArg2exist	
 )
+@goto :ldVolVarSets
+:ldVolArg2exist
+@if exist %2 (
+	set ldVolumeCmd=%ldVolumeCmd% %2
+) else (
+	goto :eofldVolBat
+)
+
+:ldVolVarSets
 @set ldLastWord=
 @set ldVolName=
 @set ldVolID=
 @set count=0
+:
 @SETLOCAL ENABLEDELAYEDEXPANSION
-
 @for /f "tokens=*delims=" %%a in ('%ldVolumeCmd%') DO @(
 	set /A count += 1
 	set cab=%%a
