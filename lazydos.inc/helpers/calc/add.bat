@@ -1,12 +1,14 @@
 @echo off
 SETLOCAL ENABLEDELAYEDEXPANSION
-:addme
+:addSets
+	set maxPosNumber=2147483647
 	set number1=%1
 	set number2=%2
 	set final=
+:addOtherSets
 	set carrier=0
 
-	if %number1%==0 (
+	if "%number1%"=="0" (
 		set final=%number2%
 		goto :endCalc
 	)
