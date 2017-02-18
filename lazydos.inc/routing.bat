@@ -1,36 +1,42 @@
-@if not defined ldBaseDir (
+@echo off
+if not defined ldBaseDir (
 	set ldBaseDir=%~dp0
 )
-@goto :%1
+goto :%1
 :wait
-@%ldBaseDir%helpers\wait.bat %2 %3
+	%ldBaseDir%helpers\wait.bat %2 %3
 :charset
-@%ldBaseDir%helpers\charset.bat %2
+	%ldBaseDir%helpers\charset.bat %2
 :datetime
-@%ldBaseDir%helpers\datetime.bat %2
+	%ldBaseDir%helpers\datetime.bat %2
 :shutdown
-@%ldBaseDir%helpers\shutdown.bat %*
+	%ldBaseDir%helpers\shutdown.bat %*
 :reboot
-@%ldBaseDir%helpers\shutdown.bat %*
+	%ldBaseDir%helpers\shutdown.bat %*
 :vol
-@%ldBaseDir%helpers\vol.bat %2 %3
+	%ldBaseDir%helpers\vol.bat %2 %3
 :strings-str
 	:string.contain
 	:str.contain
+	:string.in
 	:str.in
-	@%ldBaseDir%helpers\string\base.bat contain %2 %3
+	:string.search
+	:str.search	
+	:string.findinstr
+	:str.findinstr
+		%ldBaseDir%helpers\string\base.bat contain %2 %3
 	:string.remove
 	:str.remove
-	@%ldBaseDir%helpers\string\base.bat remove %2 %3
+		%ldBaseDir%helpers\string\base.bat remove %2 %3
 	:string.len
 	:string.length
 	:str.len
 	:str.length
-	@%ldBaseDir%helpers\string\len.bat %2
-	
+		%ldBaseDir%helpers\string\len.bat %2
+
 :calcs
 	:calc.add
-	@%ldBaseDir%helpers\calc\add.bat %2 %3
+		%ldBaseDir%helpers\calc\add.bat %2 %3
 
 
 

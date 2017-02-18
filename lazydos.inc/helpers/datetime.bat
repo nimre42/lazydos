@@ -1,25 +1,26 @@
 :: default - system datetime var
 :: echo and save in a variable
-@set lddatetime=
+@echo off
+set lddatetime=
 
-@if [%1] == [] (
+if [%1] == [] (
 	set lddatetime=%date% %time%
 	goto :fileendldDateTime
 )
 
 
 :ldcreatedatetime
-	@set X=
-	@for /f "skip=1 delims=" %%x in ('wmic os get localdatetime') do @if not defined X set X=%%x
+	set X=
+	for /f "skip=1 delims=" %%x in ('wmic os get localdatetime') do @if not defined X set X=%%x
 
 
 :ldDatetimeParseArg
-	@set myvar=%1%
-	@set myvar=%myvar:"=%
-	@set #=%myvar%
-	@set length=0
+	set myvar=%1%
+	set myvar=%myvar:"=%
+	set #=%myvar%
+	set length=0
 :loopldDateTimeArg
-	@if defined # (
+	if defined # (
 		rem shorten string by one character
 		set var=%#:~0,1%
 		set #=%#:~1%
@@ -31,38 +32,38 @@
 
 
 :ldDateTimeParse
-	@if "%var%" == "y" (
+	if "%var%" == "y" (
 		set lddatetime=%lddatetime%%X:~2,2%
 		goto :loopldDateTimeArg
 	)
-	@if "%var%" == "Y" (
+	if "%var%" == "Y" (
 		set lddatetime=%lddatetime%%X:~0,4%
 		goto :loopldDateTimeArg
 	)
-	@if "%var%" == "m" (
+	if "%var%" == "m" (
 		set lddatetime=%lddatetime%%X:~4,2%
 		goto :loopldDateTimeArg
 	)
-	@if "%var%" == "d" (
+	if "%var%" == "d" (
 		set lddatetime=%lddatetime%%X:~6,2%
 		goto :loopldDateTimeArg
 	)
-	@if "%var%" == "H" (
+	if "%var%" == "H" (
 		set lddatetime=%lddatetime%%X:~8,2%
 		goto :loopldDateTimeArg
 	)
-	@if "%var%" == "i" (
+	if "%var%" == "i" (
 		set lddatetime=%lddatetime%%X:~10,2%
 		goto :loopldDateTimeArg
 	)
-	@if "%var%" == "s" (
+	if "%var%" == "s" (
 		set lddatetime=%lddatetime%%X:~12,2%
 		goto :loopldDateTimeArg
 	)
-	@set lddatetime=%lddatetime%%var%
-	@goto :loopldDateTimeArg
+	set lddatetime=%lddatetime%%var%
+	goto :loopldDateTimeArg
 
 :fileendldDateTime
-@echo %lddatetime%
+echo %lddatetime%
 
 :ldDateTimeEnd
